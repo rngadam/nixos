@@ -19,6 +19,8 @@
         # so the old configuration file still takes effect
         ./configuration.nix
         ./tailscale.nix
+        ./peertube.nix
+        ./virtiofs.nix
         home-manager.nixosModules.home-manager 
 	{
             home-manager.useGlobalPkgs = true;

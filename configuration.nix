@@ -82,6 +82,7 @@
      vim
      wget
      tmux
+     openssl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -2,7 +2,7 @@
 { config, pkgs, ... }:
 
 {
-  age.secrets.tailscale.file = /home/rngadam/secrets/tailscale.age;
+  age.secrets.tailscale.file = ./secrets/tailscale.age;
 
   # make the tailscale command usable to users
   environment.systemPackages = [ pkgs.tailscale ];
