@@ -75,14 +75,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+     dig
      git
+     lsof
      nixfmt-rfc-style
+     nmap
+     openssl
      python3
+     tmux
      tree
      vim
      wget
-     tmux
-     openssl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

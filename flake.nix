@@ -19,6 +19,7 @@
         # so the old configuration file still takes effect
         ./configuration.nix
         ./tailscale.nix
+        ./caddy.nix
         ./peertube.nix
         ./virtiofs.nix
         home-manager.nixosModules.home-manager 

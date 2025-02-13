@@ -28,14 +28,14 @@
   };
 
   networking.extraHosts = ''
-    127.0.0.1 peertube
+     127.0.0.1 peertube
   '';
 
   services = {
 
     peertube = {
       enable = true;
-      localDomain = "peertube";
+      localDomain = "peertube.coderbunker.ca";
       enableWebHttps = false;
       secrets.secretsFile = config.age.secrets.peertube.path;
       database = {
@@ -51,7 +51,7 @@
       };
       settings = {
         listen.hostname = "0.0.0.0";
-        instance.name = "Ricky's PeerTube";
+        instance.name = "Coderbunker Canada PeerTube";
       };
     };
 
@@ -63,7 +63,7 @@
       '';
       initialScript = pkgs.writeText "postgresql_init.sql" ''
         \set postgres_password `cat ${config.age.secrets.postgres.path}`
-        CREATE ROLE peertube_test LOGIN PASSWORD :postgres_password;
+        CREATE ROLE peertube_test LOGIN PASSWORD ':postgres_password';
         CREATE ROLE peertube_test LOGIN PASSWORD NULL;
         CREATE DATABASE peertube_local TEMPLATE template0 ENCODING UTF8;
         CREATE ROLE peertube_db_owner NOLOGIN;
@@ -78,7 +78,7 @@
     redis.servers.peertube = {
       enable = true;
       bind = "0.0.0.0";
-      requirePass = "${builtins.readFile(config.age.secrets.redis.path)}";
+      requirePassFile = config.age.secrets.redis.path;
       port = 31638;
     };
 
