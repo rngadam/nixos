@@ -16,7 +16,8 @@
       respond "Hello, world!"
     '';
     virtualHosts."peertube.coderbunker.ca".extraConfig = ''
-        reverse_proxy http://peertube:9000 
+      reverse_proxy http://peertube:9000 { 
+      }
     '';
   };
 }

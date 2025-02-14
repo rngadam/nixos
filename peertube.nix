@@ -36,7 +36,8 @@
     peertube = {
       enable = true;
       localDomain = "peertube.coderbunker.ca";
-      enableWebHttps = false;
+      enableWebHttps = true;
+
       secrets.secretsFile = config.age.secrets.peertube.path;
       database = {
         host = "127.0.0.1";
@@ -50,7 +51,15 @@
         passwordFile = config.age.secrets.redis.path;
       };
       settings = {
-        listen.hostname = "0.0.0.0";
+        listen =  {
+            hostname = "0.0.0.0";
+            port = 9000;
+        };
+        webserver = {
+            https = true;
+            hostname = "peertube.coderbunker.ca";
+            port = lib.mkForce 443;
+        };
         instance.name = "Coderbunker Canada PeerTube";
       };
     };
