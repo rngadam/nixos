@@ -35,9 +35,18 @@
   users.users.redis-peertube.home = lib.mkForce "/peertube/redis";
   users.users.peertube.home = lib.mkForce "/peertube/peertube";
 
+  systemd.tmpfiles.rules = [
+        "d /peertube/postgres 0700 postgres postgres -"
+        "d /peertube/redis 0700 redis-peertube redis-peertube -"
+        "d /peertube/peertube 0700 peertube peertube -"
+  ];
+
   services = {
 
     peertube = {
+      dataDirs = [
+        "/peertube/peertube"
+      ];
       enable = true;
       localDomain = "peertube.coderbunker.ca";
       enableWebHttps = true;
@@ -69,6 +78,7 @@
     };
 
     postgresql = {
+      dataDir = "/peertube/postgres";
       enable = true;
       enableTCPIP = true;
       authentication = ''
@@ -93,6 +103,7 @@
       bind = "0.0.0.0";
       requirePassFile = config.age.secrets.redis.path;
       port = 31638;
+      settings.dir = lib.mkForce "/peertube/redis";
     };
 
   };
