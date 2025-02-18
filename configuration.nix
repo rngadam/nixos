@@ -117,6 +117,12 @@
     fsType = "ext4";
   };
 
+  fileSystems."/peertube" = lib.mkForce {
+    device = "/dev/disk/by-label/peertube";
+    autoResize = true;
+    fsType = "ext4";
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

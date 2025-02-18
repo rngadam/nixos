@@ -31,6 +31,10 @@
      127.0.0.1 peertube
   '';
 
+  users.users.postgres.home = lib.mkForce "/peertube/postgres";
+  users.users.redis-peertube.home = lib.mkForce "/peertube/redis";
+  users.users.peertube.home = lib.mkForce "/peertube/peertube";
+
   services = {
 
     peertube = {
