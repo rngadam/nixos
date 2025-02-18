@@ -36,17 +36,29 @@
   users.users.peertube.home = lib.mkForce "/peertube/peertube";
 
   systemd.tmpfiles.rules = [
-        "d /peertube/postgres 0700 postgres postgres -"
-        "d /peertube/redis 0700 redis-peertube redis-peertube -"
-        "d /peertube/peertube 0700 peertube peertube -"
+        "d /media/peertube/postgres 0700 postgres postgres -"
+        "d /media/peertube/redis 0700 redis-peertube redis-peertube -"
+        "d /media/peertube/peertube 0700 peertube peertube -"
   ];
+
+   fileSystems."/var/lib/redis-peertube" = {
+     device = "/media/peertube/redis";
+     options = [ "bind" ];
+   };
+  
+  fileSystems."/var/lib/postgresql" = {
+    device = "/media/peertube/postgresql";
+    options = [ "bind" ];
+  };
+
+   fileSystems."/var/lib/peertube" = {
+     device = "/media/peertube/peertube";
+     options = [ "bind" ];
+   };
 
   services = {
 
     peertube = {
-      dataDirs = [
-        "/peertube/peertube"
-      ];
       enable = true;
       localDomain = "peertube.coderbunker.ca";
       enableWebHttps = true;
@@ -78,7 +90,6 @@
     };
 
     postgresql = {
-      dataDir = "/peertube/postgres";
       enable = true;
       enableTCPIP = true;
       authentication = ''
@@ -86,8 +97,7 @@
       '';
       initialScript = pkgs.writeText "postgresql_init.sql" ''
         \set postgres_password `cat ${config.age.secrets.postgres.path}`
-        CREATE ROLE peertube_test LOGIN PASSWORD ':postgres_password';
-        CREATE ROLE peertube_test LOGIN PASSWORD NULL;
+        CREATE ROLE peertube_test LOGIN PASSWORD :'postgres_password';
         CREATE DATABASE peertube_local TEMPLATE template0 ENCODING UTF8;
         CREATE ROLE peertube_db_owner NOLOGIN;
         ALTER DATABASE peertube_local OWNER TO peertube_db_owner;
@@ -103,7 +113,6 @@
       bind = "0.0.0.0";
       requirePassFile = config.age.secrets.redis.path;
       port = 31638;
-      settings.dir = lib.mkForce "/peertube/redis";
     };
 
   };
