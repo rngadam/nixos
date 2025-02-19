@@ -27,6 +27,10 @@
         # ./docker.nix
         {
             virtualisation.docker.enable = false;
+            programs.nix-ld.enable = true;
+            networking = {
+                nameservers = ["8.8.8.8" "8.8.4.4"];
+            };
         }
         home-manager.nixosModules.home-manager 
 	{
@@ -42,7 +46,10 @@
         }
         vscode-server.nixosModules.default
         ({ config, pkgs, ... }: {
-          services.vscode-server.enable = false;
+          # must also be enabled per user and started
+          # systemctl --user enable auto-fix-vscode-server.service
+          # systemctl --user start auto-fix-vscode-server.service
+          services.vscode-server.enable = true;
         })
       ];
     };

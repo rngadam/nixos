@@ -76,7 +76,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      dig
+     file
      git
+     jq
      lsof
      nixfmt-rfc-style
      nmap
