@@ -18,7 +18,17 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  networking.hostName = "nixos02"; # Define your hostname.
+  networking = {
+    hostName = "nixos02";
+    interfaces.enp6s18 = {
+        useDHCP = false;
+        ipv4.addresses = [
+            { address = "192.168.6.107"; prefixLength = 24; }
+        ];
+    };
+    defaultGateway = "192.168.6.1";
+    nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  };
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -78,6 +88,7 @@
      dig
      file
      git
+     inetutils
      jq
      lsof
      nixfmt-rfc-style
@@ -138,7 +149,7 @@
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  # 
+  #
   # Most users should NEVER change this value after the initial install, for any reason,
   # even if you've upgraded your system to a new NixOS release.
   #
@@ -162,9 +173,8 @@
   services.avahi.enable = true;
 	services.avahi.nssmdns4 = true;
 	services.avahi.publish = {
-	enable = true;
-	addresses = true;
+    enable = true;
+    addresses = true;
   };
 
 }
-

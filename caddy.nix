@@ -12,11 +12,11 @@
     virtualHosts."localhost".extraConfig = ''
       respond "Hello, world!"
     '';
-    virtualHosts."coderbunker.hopto.org".extraConfig = ''
+    virtualHosts."peertube.hopto.org".extraConfig = ''
       respond "Hello, world!"
     '';
     virtualHosts."peertube.coderbunker.ca".extraConfig = ''
-      reverse_proxy http://peertube:9000 { 
+      reverse_proxy http://peertube:9000 {
       }
     '';
   };
